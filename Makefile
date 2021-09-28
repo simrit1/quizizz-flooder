@@ -7,5 +7,8 @@ compile:
 	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 .
 	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 .
 
+clean:
+	rm -rf bin/*
+
 run:
 	go run .

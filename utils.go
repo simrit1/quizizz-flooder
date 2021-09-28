@@ -101,6 +101,9 @@ func GetRoomHash(pin string) (string, error) {
 	if err := json.Unmarshal(body, &room); err != nil {
 		return "", err
 	}
+	if room.Room.Hash == "" {
+		return "", errors.New("invalid pin")
+	}
 
 	return room.Room.Hash, nil
 }

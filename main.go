@@ -4,19 +4,32 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"os"
-	"os/signal"
 	"strconv"
 
 	"github.com/manifoldco/promptui"
 )
 
 func main() {
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt)
+
+	botsPrompt := promptui.Prompt{
+		Label: "Number of bots",
+		Validate: func(s string) error {
+			if _, err := strconv.Atoi(s); err != nil {
+				return err
+			}
+			return nil
+		},
+	}
+
+	botsCount, err := botsPrompt.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	n, _ := strconv.Atoi(botsCount)
 
 	log.Println("Loading bots...")
-	bots, err := GetBots(10)
+	bots, err := GetBots(n)
 
 	if err != nil {
 		log.Fatal("Error while getting bots")
@@ -78,7 +91,6 @@ func main() {
 		CustomName: customName,
 	}
 
-	go Spam(bots, cfg)
+	Spam(bots, cfg)
 
-	<-interrupt
 }
