@@ -18,7 +18,7 @@ import (
 func GetBots(number int) (Response, error) {
 	bots := Response{}
 
-	resp, err := http.Get("https://quizizz.com/_api/ratelimit/v2/adminRecommend/2?page=2&pageSize=" + strconv.Itoa(number) + "&_=1632765352057")
+	resp, err := http.Get("https://quizizz.com/_api/ratelimit/v2/adminRecommend/2?page=2&pageSize=" + strconv.Itoa(number))
 	if err != nil {
 		return Response{}, err
 	}
@@ -63,7 +63,7 @@ func Spam(bots Response, config Config) {
 		}
 		socket.Connect()
 
-		socket.SendText(`420["v5/join",{"roomHash":"` + config.RoomHash + `","player":{"id":"` + botNames + `","origin":"web","isGoogleAuth":false,"avatarId":2,"startSource":"gameCode|typed","name":"` + strconv.Itoa(i) + `","mongoId":"` + bot.CreatedBy.Id + `","userAgent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36","uid":"f6f597d7-1bbe-42e7-ac3e-600487250ed1","expName":"ratelimiter_exp","expSlot":"6"},"powerupInternalVersion":"13","__cid__":"v5/join.|1.1632599434062"}] `)
+		socket.SendText(`420["v5/join",{"roomHash":"` + config.RoomHash + `","player":{"id":"` + botNames + `","name":"` + strconv.Itoa(i) + `","mongoId":"` + bot.CreatedBy.Id + `"}}]`)
 		time.Sleep(time.Duration(config.Delay) * time.Millisecond)
 
 		socket.Close()
